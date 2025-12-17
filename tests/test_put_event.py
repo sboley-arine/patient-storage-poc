@@ -17,7 +17,7 @@ print(f"Starting load test: writing {TOTAL_EVENTS:,} events for {NUM_PATIENTS} p
 
 sources = ["USER", "ETL"]
 event_types = ["USER_UPDATE", "ETL_UPDATE", "ETL_ROLLBACK"]
-# program_tags = ["Centene", "Humana", "UnitedHealth", "Aetna", "Cigna"]
+program_tags = ["Centene", "Humana", "UnitedHealth", "Aetna", "Cigna"]
 update_field_types = ["email", "phone", "address", "status", "emergency_contact"]
 
 def generate_random_change_data(field_type):
@@ -71,8 +71,8 @@ for patient_id in range(1, NUM_PATIENTS + 1):
                 "resourceId": patient_id_str,
                 "eventType": random.choice(event_types),
                 "changes": generate_multiple_changes(),
-                # "programYear": "2025",
-                # "programTag": random.choice(program_tags),
+                "programYear": "2025",
+                "programTag": random.choice(program_tags),
                 "occurredAt": event_time.isoformat(),
                 "actorId": f"user-{random.randint(100000, 999999)}",
                 "source": random.choice(sources),

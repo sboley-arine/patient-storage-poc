@@ -38,6 +38,8 @@ def handler(event, context):
         occurred_at = event_item["occurredAt"]
         actor_id = event_item.get("actorId")
         source = event_item.get("source")
+        program_year = event_item.get("programYear")
+        program_tag = event_item.get("programTag")
 
         pk = f"{resource_type}#{resource_id}"
 
@@ -84,6 +86,19 @@ def handler(event, context):
                     "occurredAt": occurred_at,
                 })
 
+            if program_year:
+                program_key = f"{program_year}#{program_tag}" if program_tag else f"{program_year}"
+                attribute_index_items.append({
+                    "PK": pk,
+                    "SK": f"PROGRAM#{program_key}#{attr}",
+                    "attribute": attr,
+                    "value": value,
+                    "eventType": event_type,
+                    "actorId": actor_id,
+                    "source": source,
+                    "occurredAt": occurred_at,
+                })
+
             # --- HISTORY (append-only attribute history) ---
             attribute_index_items.append({
                 "PK": pk,
@@ -95,6 +110,9 @@ def handler(event, context):
                 "source": source,
                 "occurredAt": occurred_at,
             })
+
+            # -- HISTORY (by program year)
+
 
     # -------------------------------------------------
     # Batch writes (batch_writer handles retries & size)
