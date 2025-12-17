@@ -1,6 +1,12 @@
 import boto3
 
-TABLE_NAME = "Sam-PatientEventsPOC-PatientEvents7A491A55-R3LW4MCL063J"
+TABLES = [
+    'Sam-PatientEventsPOC-PatientCurrentState4C3F89B5-1GA7XECJG57LY',
+    'Sam-PatientEventsPOC-PatientAttributeLastUpdatedA873CB83-AT5BW7IHT6OL',
+    'Sam-PatientEventsPOC-PatientEvents7A491A55-R3LW4MCL063J'
+]
+
+TABLE_NAME = "Sam-PatientEventsPOC-PatientAttributeLastUpdatedA873CB83-AT5BW7IHT6OL"
 
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(TABLE_NAME)

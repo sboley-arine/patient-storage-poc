@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 import time
 import random
 
-TABLE_NAME = "Sam-PatientEventsPOC-PatientEvents7A491A55-R3LW4MCL063J"
+TABLE_NAME = "Sam-PatientEventsPOC-PatientEvents7A491A55-5TKZSANNXHFC"
 
 table = boto3.resource("dynamodb").Table(TABLE_NAME)
 
@@ -16,8 +16,8 @@ TOTAL_EVENTS = NUM_PATIENTS * EVENTS_PER_PATIENT
 print(f"Starting load test: writing {TOTAL_EVENTS:,} events for {NUM_PATIENTS} patients...")
 
 sources = ["USER", "ETL"]
-event_types = ["USER_ATTRIBUTE_UPDATE", "ETL_UPDATE", "ETL_ROLLBACK"]
-program_tags = ["Centene", "Humana", "UnitedHealth", "Aetna", "Cigna"]
+event_types = ["USER_UPDATE", "ETL_UPDATE", "ETL_ROLLBACK"]
+# program_tags = ["Centene", "Humana", "UnitedHealth", "Aetna", "Cigna"]
 update_field_types = ["email", "phone", "address", "status", "emergency_contact"]
 
 def generate_random_change_data(field_type):
@@ -71,10 +71,10 @@ for patient_id in range(1, NUM_PATIENTS + 1):
                 "resourceId": patient_id_str,
                 "eventType": random.choice(event_types),
                 "changes": generate_multiple_changes(),
-                "programYear": "2025",
-                "programTag": random.choice(program_tags),
+                # "programYear": "2025",
+                # "programTag": random.choice(program_tags),
                 "occurredAt": event_time.isoformat(),
-                "updatedBy": f"user-{random.randint(100000, 999999)}",
+                "actorId": f"user-{random.randint(100000, 999999)}",
                 "source": random.choice(sources),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
